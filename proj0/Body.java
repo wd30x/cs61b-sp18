@@ -20,6 +20,6 @@ public class Body{
 
     /** second constructor */
     public Body(Body b){
-        Body body = b;
+        Body body = b; 
     }
 }
