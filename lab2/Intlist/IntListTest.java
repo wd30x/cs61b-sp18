@@ -41,6 +41,14 @@ public class IntListTest {
      */
 
     @Test
+    public void testSquareListIterative() {
+        IntList L = IntList.of(1, 2, 3);
+        IntList res = IntList.squareListIterative(L);
+        assertEquals(IntList.of(1, 2, 3), L);
+        assertEquals(IntList.of(1, 4, 9), res);
+    }
+
+    @Test
     public void testSquareListRecursive() {
         IntList L = IntList.of(1, 2, 3);
         IntList res = IntList.squareListRecursive(L);

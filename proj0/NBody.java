@@ -79,7 +79,7 @@ public class NBody{
                 p.draw();
             }
             StdDraw.show();
-            StdDraw.pause(20);
+            StdDraw.pause(10);
             time = time + dt;
         }
 
