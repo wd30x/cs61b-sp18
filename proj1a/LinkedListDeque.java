@@ -14,15 +14,21 @@ public class LinkedListDeque<T> {
         }
     }
 
+    public static void main(String[] args) {
+        LinkedListDeque<Integer> deque = new LinkedListDeque<>();
+        deque.addFirst(1);
+        deque.addLast(2);
+        System.out.println(deque.isEmpty());
+    }
+
     /**
      * Creates an empty linked list deque.
      */
     public LinkedListDeque() {
-        Node sentinel = new Node(null, null, null);
+        sentinel = new Node(null, null, null);
         sentinel.next = sentinel;
         sentinel.prev = sentinel;
         size = 0;
-
     }
 
     /**
@@ -33,6 +39,7 @@ public class LinkedListDeque<T> {
         Node node = new Node(sentinel, item, sentinel.next);
         sentinel.next.prev = node;
         sentinel.next = node;
+        size++;
     }
 
     /**
@@ -43,13 +50,14 @@ public class LinkedListDeque<T> {
         Node node = new Node(sentinel.prev, item, sentinel);
         sentinel.prev.next = node;
         sentinel.prev = node;
+        size++;
     }
 
     /**
      * Returns true if deque is empty, false otherwise.
      */
     public boolean isEmpty() {
-        return false;
+        return sentinel.next == sentinel && sentinel.prev == sentinel;
     }
 
     /**
@@ -63,21 +71,39 @@ public class LinkedListDeque<T> {
      * Prints the items in the deque from first to last, separated by a space.
      */
     public void printDeque() {
-
+        Node itr = sentinel.next;
+        while (itr != sentinel) {
+            System.out.print(itr.item + " ");
+            itr = itr.next;
+        }
     }
 
     /**
      * Removes and returns the item at the front of the deque. If no such item exists, returns null.
      */
     public T removeFirst() {
-        return null;
+        if (!isEmpty()) {
+            Node p = sentinel.next;
+            sentinel.next = sentinel.next.next;
+            sentinel.next.prev = sentinel;
+            return p.item;
+        } else {
+            return null;
+        }
     }
 
     /**
      * Removes and returns the item at the back of the deque. If no such item exists, returns null.
      */
     public T removeLast() {
-        return null;
+        if (!isEmpty()) {
+            Node p = sentinel.prev;
+            sentinel.prev = sentinel.prev.prev;
+            sentinel.prev.next = sentinel;
+            return p.item;
+        } else {
+            return null;
+        }
     }
 
     /**
