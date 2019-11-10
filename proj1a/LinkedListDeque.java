@@ -18,7 +18,7 @@ public class LinkedListDeque<T> {
         LinkedListDeque<Integer> deque = new LinkedListDeque<>();
         deque.addFirst(1);
         deque.addLast(2);
-        System.out.println(deque.isEmpty());
+        System.out.println(deque.get(0) + " " + deque.get(1));
     }
 
     /**
@@ -83,10 +83,10 @@ public class LinkedListDeque<T> {
      */
     public T removeFirst() {
         if (!isEmpty()) {
-            Node p = sentinel.next;
             sentinel.next = sentinel.next.next;
             sentinel.next.prev = sentinel;
-            return p.item;
+            size--;
+            return sentinel.next.item;
         } else {
             return null;
         }
@@ -97,10 +97,10 @@ public class LinkedListDeque<T> {
      */
     public T removeLast() {
         if (!isEmpty()) {
-            Node p = sentinel.prev;
             sentinel.prev = sentinel.prev.prev;
             sentinel.prev.next = sentinel;
-            return p.item;
+            size--;
+            return sentinel.prev.item;
         } else {
             return null;
         }
@@ -111,13 +111,41 @@ public class LinkedListDeque<T> {
      * exists, returns null. Must not alter the deque!
      */
     public T get(int index) {
-        return null;
+        if (index >= size) {
+            return null;
+        }
+        Node p = sentinel.next;
+        for (int i = 0; i < index; i++) {
+            p = p.next;
+        }
+        return p.item;
+
     }
 
     /**
      * Same as get, but uses recursion.
      */
     public T getRecursive(int index) {
-        return null;
+        return getRecursive(sentinel.next, index);
     }
+
+    /**
+     * a helper method for recursive get
+     */
+    private T getRecursive(Node itr, int index) {
+        if (index >= size) {
+            return null;
+        }
+        Node p = itr;
+
+        if (index == 0) {
+            return p.item;
+        }
+        if (index > 0) {
+            p = p.next;
+        }
+
+        return getRecursive(p, index - 1);
+    }
+
 }
