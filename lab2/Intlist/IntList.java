@@ -74,7 +74,18 @@ public class IntList {
 
     /** DO NOT MODIFY ANYTHING ABOVE THIS LINE! */
 
+    public void addFirst(int x){
+        IntList list = new IntList(this.first, this.rest);
+        this.rest = list;
+        this.first = x;
+    }
 
+    public static void main(String[] args) {
+        IntList list = new IntList(1, null);
+        list = new IntList(2, list);
+        list.addFirst(3);
+        dSquareList(list);
+    }
     /**
      * Returns a list consisting of the elements of A followed by the
      * *  elements of B.  May modify items of A. Don't use 'new'.
