@@ -1,3 +1,5 @@
+import javax.print.attribute.standard.NumberOfDocuments;
+
 public class LinkedListDeque<T> {
     private Node sentinel;
     private int size;
@@ -83,10 +85,11 @@ public class LinkedListDeque<T> {
      */
     public T removeFirst() {
         if (!isEmpty()) {
+            Node p = sentinel.next;
             sentinel.next = sentinel.next.next;
             sentinel.next.prev = sentinel;
             size--;
-            return sentinel.next.item;
+            return p.item;
         } else {
             return null;
         }
@@ -97,10 +100,11 @@ public class LinkedListDeque<T> {
      */
     public T removeLast() {
         if (!isEmpty()) {
+            Node p = sentinel.prev;
             sentinel.prev = sentinel.prev.prev;
             sentinel.prev.next = sentinel;
             size--;
-            return sentinel.prev.item;
+            return p.item;
         } else {
             return null;
         }
