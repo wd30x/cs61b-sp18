@@ -1,5 +1,3 @@
-import javax.print.attribute.standard.NumberOfDocuments;
-
 public class LinkedListDeque<T> {
     private Node sentinel;
     private int size;
@@ -14,13 +12,6 @@ public class LinkedListDeque<T> {
             item = i;
             next = n;
         }
-    }
-
-    public static void main(String[] args) {
-        LinkedListDeque<Integer> deque = new LinkedListDeque<>();
-        deque.addFirst(1);
-        deque.addLast(2);
-        System.out.println(deque.get(0) + " " + deque.get(1));
     }
 
     /**
