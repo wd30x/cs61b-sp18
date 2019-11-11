@@ -12,14 +12,19 @@ public class ArrayDeque<T> {
         deque.addFirst(2);
         deque.addFirst(3);
         deque.addLast(4);
-        deque.addLast(5);
         deque.printDeque();
         System.out.println();
         System.out.println(deque.size);
         deque.addFirst(4);
         deque.addFirst(5);
         deque.addFirst(6);
-
+        deque.addLast(6);
+        deque.addLast(7);
+        deque.addLast(8);
+        deque.addLast(9);
+        System.out.println(deque.nextFirstIndex);
+        //deque.removeLast();
+        deque.removeFirst();
         deque.printDeque();
     }
 
@@ -37,7 +42,7 @@ public class ArrayDeque<T> {
      * Adds an item of type T to the front of the deque.
      */
     public void addFirst(T item) {
-        if (getLoadFactor() > 0.5) {
+        if (getLoadFactor() >= 0.5) {
             resize(items.length * 2);
             nextFirstIndex += items.length / 2;
         }
@@ -53,8 +58,9 @@ public class ArrayDeque<T> {
      * Adds an item of type T to the back of the deque.
      */
     public void addLast(T item) {
-        if (getLoadFactor() > 0.5) {
+        if (getLoadFactor() >= 0.5) {
             resize(items.length * 2);
+            nextFirstIndex += items.length / 2;
         }
         items[nextLastIndex] = item;
         nextLastIndex++;
