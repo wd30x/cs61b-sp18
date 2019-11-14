@@ -4,6 +4,55 @@ public class ArrayDeque<T> {
     private int first;
     private int last;
 
+    public static void main(String[] args) {
+        ArrayDeque<Integer> d = new ArrayDeque<>();
+//        d.addFirst(1);
+//        d.addFirst(2);
+//        d.addFirst(3);
+//        d.addFirst(4);
+//        d.addFirst(5);
+//        d.addFirst(6);
+//        d.addFirst(7);
+//        d.addFirst(8);
+//        d.removeFirst();
+//        d.removeFirst();
+//        d.removeFirst();
+//        d.removeFirst();
+//        d.removeFirst();
+//        d.removeFirst();
+//        d.removeFirst();
+//        d.removeFirst();
+//        d.addFirst(1);
+//        d.addFirst(2);
+//        d.addFirst(3);
+//        d.addFirst(4);
+//        d.addFirst(5);
+//        d.addFirst(6);
+//        d.addFirst(7);
+//        d.addFirst(8);
+//        int i = d.get(0);
+
+        d.addLast(0);
+        d.get(0);
+        d.removeFirst();
+        d.addLast(3);
+        d.removeLast();
+        d.addLast(5);
+        d.removeLast();
+        d.addLast(7);
+        d.addFirst(8);
+        d.addFirst(9);
+        d.removeLast();
+        d.addFirst(11);
+        d.removeFirst();
+        d.removeFirst();
+        d.addLast(14);
+        d.removeLast();
+        d.addFirst(16);
+        d.removeFirst();
+        d.get(0);
+    }
+
     /**
      * Creates an empty array deque
      */
@@ -18,7 +67,7 @@ public class ArrayDeque<T> {
      * Adds an item of type T to the front of the deque.
      */
     public void addFirst(T item) {
-        if (isEmpty()) {
+        if (isEmpty() || (first == 0 && items[first] == null)) {
             first = 0;
             items[first] = item;
             size++;
@@ -38,7 +87,7 @@ public class ArrayDeque<T> {
      * Adds an item of type T to the back of the deque.
      */
     public void addLast(T item) {
-        if (isEmpty()) {
+        if (isEmpty() || (last == 0 && items[last] == null)) {
             last = 0;
             items[last] = item;
             size++;
