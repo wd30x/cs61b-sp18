@@ -159,7 +159,7 @@ public class ArrayDeque<T> {
     /**
      * Returns true if deque is full, false otherwise.
      */
-    public boolean isFull() {
+    private boolean isFull() {
         return size == items.length - 1;
     }
 
@@ -190,20 +190,15 @@ public class ArrayDeque<T> {
     /**
      * Double the size of the deque if it is almost full(80%)
      */
-    private void resizeUp(int capacity) {
-        if (getLoadFactor() > 0.8) {
-
-        }
-    }
-
-    /**
-     * Halve the size of the deque if it is almost empty(25%)
-     */
-    private void resizeDown(int capacity) {
-        if (getLoadFactor() < 0.25) {
-
-        }
-    }
+//    private void resizeUp(int capacity) {
+//    }
+//
+//    /**
+//     * Halve the size of the deque if it is almost empty(25%)
+//     */
+//    private void resizeDown(int capacity) {
+//
+//    }
 
     /**
      * get the load factor of an deque
