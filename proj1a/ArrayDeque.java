@@ -62,6 +62,12 @@ public class ArrayDeque<T> {
 //        d.addLast(7);
 //        d.addLast(8);
 //        d.removeFirst();    //==> 5
+
+//        d.addLast(0);
+//        d.addLast(1);
+//        d.get(0); //==> 0
+//        d.addFirst(3);
+//        d.get(2);
 //    }
 
     /**
