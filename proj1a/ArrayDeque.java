@@ -12,8 +12,8 @@ public class ArrayDeque<T> {
 //        d.addFirst(4);
 //        d.addFirst(5);
 //        d.addFirst(6);
-//        d.addFirst(7);
-//        d.addFirst(8);
+//        d.addLast(10);
+//        d.addLast(11);
 //        d.removeFirst();
 //        d.removeFirst();
 //        d.removeFirst();
@@ -51,6 +51,17 @@ public class ArrayDeque<T> {
         d.addFirst(16);
         d.removeFirst();
         d.get(0);
+
+        d.addLast(0);
+        d.removeFirst();//==> 0
+        d.addLast(2);
+        d.removeFirst(); //==> 2
+        d.addFirst(4);
+        d.addLast(5);
+        d.removeFirst();  //==> 4
+        d.addLast(7);
+        d.addLast(8);
+        d.removeFirst();    //==> 5
     }
 
     /**
@@ -67,19 +78,15 @@ public class ArrayDeque<T> {
      * Adds an item of type T to the front of the deque.
      */
     public void addFirst(T item) {
-        if (isEmpty() || (first == 0 && items[first] == null)) {
+        if (isEmpty()) {
             first = 0;
-            items[first] = item;
-            size++;
-            return;
-        }
-        if (first != 0) {
-            first--;
-            items[first] = item;
-        } else {
+            last = 0;
+        } else if (first == 0) {
             first = items.length - 1;
-            items[first] = item;
+        } else {
+            first--;
         }
+        items[first] = item;
         size++;
     }
 
@@ -87,19 +94,15 @@ public class ArrayDeque<T> {
      * Adds an item of type T to the back of the deque.
      */
     public void addLast(T item) {
-        if (isEmpty() || (last == 0 && items[last] == null)) {
+        if (isEmpty()) {
             last = 0;
-            items[last] = item;
-            size++;
-            return;
-        }
-        if (last != items.length - 1) {
-            last++;
-            items[last] = item;
+            first = 0;
+        } else if (last == items.length - 1) {
+            last = 0;
         } else {
-            last = 0;
-            items[last] = item;
+            last++;
         }
+        items[last] = item;
         size++;
     }
 
@@ -112,9 +115,12 @@ public class ArrayDeque<T> {
         }
         T rem = items[first];
         items[first] = null;
-        if (first == items.length - 1) {
+        if (size == 1) {
             first = 0;
-        } else if (first != 0) {
+            last = 0;
+        } else if (first == items.length - 1) {
+            first = 0;
+        } else {
             first++;
         }
         size--;
@@ -130,9 +136,13 @@ public class ArrayDeque<T> {
         }
         T rem = items[last];
         items[last] = null;
-        if (last == 0 && getLoadFactor() > 0.8) {
+
+        if (size == 1) {
+            first = 0;
+            last = 0;
+        } else if (last == 0) {
             last = items.length - 1;
-        } else if (last != 0) {
+        } else {
             last--;
         }
         size--;
@@ -144,6 +154,13 @@ public class ArrayDeque<T> {
      */
     public boolean isEmpty() {
         return size == 0;
+    }
+
+    /**
+     * Returns true if deque is full, false otherwise.
+     */
+    public boolean isFull() {
+        return size == items.length - 1;
     }
 
     /**
