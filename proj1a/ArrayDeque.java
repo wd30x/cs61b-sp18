@@ -4,46 +4,6 @@ public class ArrayDeque<T> {
     private int nextFirst;
     private int nextLast;
 
-    public static void main(String[] args) {
-        ArrayDeque<Integer> d = new ArrayDeque<>();
-        d.addLast(0);
-        d.get(0);
-        d.removeFirst();
-        d.addLast(3);
-        d.removeLast();
-        d.addLast(5);
-        d.removeLast();
-        d.addLast(7);
-        d.addFirst(8);
-        d.addFirst(9);
-        d.removeLast();
-        d.addFirst(11);
-        d.removeFirst();
-        d.removeFirst();
-        d.addLast(14);
-        d.removeLast();
-        d.addFirst(16);
-        d.removeFirst();
-        d.get(0);    //==> 8
-
-        d.addLast(0);
-        d.removeFirst();//==> 0
-        d.addLast(2);
-        d.removeFirst(); //==> 2
-        d.addFirst(4);
-        d.addLast(5);
-        d.removeFirst();  //==> 4
-        d.addLast(7);
-        d.addLast(8);
-        d.removeFirst();    //==> 2
-
-        d.addLast(0);
-        d.addLast(1);
-        d.get(0); //==> 5
-        d.addFirst(3);
-        d.get(2);
-    }
-
     /**
      * Creates an empty array deque
      */
