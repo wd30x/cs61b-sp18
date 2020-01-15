@@ -1,74 +1,48 @@
 public class ArrayDeque<T> {
     private T[] items;
     private int size;
-    private int first;
-    private int last;
+    private int nextFirst;
+    private int nextLast;
 
-//    public static void main(String[] args) {
-//        ArrayDeque<Integer> d = new ArrayDeque<>();
-//        d.addFirst(1);
-//        d.addFirst(2);
-//        d.addFirst(3);
-//        d.addFirst(4);
-//        d.addFirst(5);
-//        d.addFirst(6);
-//        d.addLast(10);
-//        d.addLast(11);
-//        d.removeFirst();
-//        d.removeFirst();
-//        d.removeFirst();
-//        d.removeFirst();
-//        d.removeFirst();
-//        d.removeFirst();
-//        d.removeFirst();
-//        d.removeFirst();
-//        d.addFirst(1);
-//        d.addFirst(2);
-//        d.addFirst(3);
-//        d.addFirst(4);
-//        d.addFirst(5);
-//        d.addFirst(6);
-//        d.addFirst(7);
-//        d.addFirst(8);
-//        int i = d.get(0);
+    public static void main(String[] args) {
+        ArrayDeque<Integer> d = new ArrayDeque<>();
+        d.addLast(0);
+        d.get(0);
+        d.removeFirst();
+        d.addLast(3);
+        d.removeLast();
+        d.addLast(5);
+        d.removeLast();
+        d.addLast(7);
+        d.addFirst(8);
+        d.addFirst(9);
+        d.removeLast();
+        d.addFirst(11);
+        d.removeFirst();
+        d.removeFirst();
+        d.addLast(14);
+        d.removeLast();
+        d.addFirst(16);
+        d.removeFirst();
+        d.get(0);    //==> 8
 
-//        d.addLast(0);
-//        d.get(0);
-//        d.removeFirst();
-//        d.addLast(3);
-//        d.removeLast();
-//        d.addLast(5);
-//        d.removeLast();
-//        d.addLast(7);
-//        d.addFirst(8);
-//        d.addFirst(9);
-//        d.removeLast();
-//        d.addFirst(11);
-//        d.removeFirst();
-//        d.removeFirst();
-//        d.addLast(14);
-//        d.removeLast();
-//        d.addFirst(16);
-//        d.removeFirst();
-//        d.get(0);
-//
-//        d.addLast(0);
-//        d.removeFirst();//==> 0
-//        d.addLast(2);
-//        d.removeFirst(); //==> 2
-//        d.addFirst(4);
-//        d.addLast(5);
-//        d.removeFirst();  //==> 4
-//        d.addLast(7);
-//        d.addLast(8);
-//        d.removeFirst();    //==> 5
+        d.addLast(0);
+        d.removeFirst();//==> 0
+        d.addLast(2);
+        d.removeFirst(); //==> 2
+        d.addFirst(4);
+        d.addLast(5);
+        d.removeFirst();  //==> 4
+        d.addLast(7);
+        d.addLast(8);
+        d.removeFirst();    //==> 2
 
-//        d.addLast(0);
-//        d.addLast(1);
-//        d.get(0); //==> 0
-//        d.addFirst(3);
-//        d.get(2);
-//    }
+        d.addLast(0);
+        d.addLast(1);
+        d.get(0); //==> 5
+        d.addFirst(3);
+        d.get(2);
+    }
 
     /**
      * Creates an empty array deque
@@ -76,83 +50,81 @@ public class ArrayDeque<T> {
     public ArrayDeque() {
         items = (T[]) new Object[8];
         size = 0;
-        first = 0;
-        last = 0;
+        nextFirst = 3;
+        nextLast = 4;
+    }
+
+    /**
+     * Creates a deep copy of other
+     **/
+    public ArrayDeque(ArrayDeque other) {
+
     }
 
     /**
      * Adds an item of type T to the front of the deque.
      */
     public void addFirst(T item) {
-        if (isEmpty()) {
-            first = 0;
-            last = 0;
-        } else if (first == 0) {
-            first = items.length - 1;
-        } else {
-            first--;
-        }
-        items[first] = item;
+        items[nextFirst] = item;
+
         size++;
+        nextFirst--;
+        if (nextFirst == -1) {
+            nextFirst = items.length - 1;
+        }
+        //resize
     }
 
     /**
      * Adds an item of type T to the back of the deque.
      */
     public void addLast(T item) {
-        if (isEmpty()) {
-            last = 0;
-            first = 0;
-        } else if (last == items.length - 1) {
-            last = 0;
-        } else {
-            last++;
-        }
-        items[last] = item;
+        items[nextLast] = item;
+
         size++;
+        nextLast++;
+        if (nextLast == items.length) {
+            nextLast = 0;
+        }
+        //resize
     }
 
     /**
      * Removes and returns the item at the front of the deque. If no such item exists, returns null.
      */
     public T removeFirst() {
-        if (isEmpty()) {
-            return null;
-        }
-        T rem = items[first];
-        items[first] = null;
-        if (size == 1) {
-            first = 0;
-            last = 0;
-        } else if (first == items.length - 1) {
-            first = 0;
+        T toRemove = get(0);
+        if (nextFirst == items.length - 1) {
+            items[0] = null;
         } else {
-            first++;
+            items[nextFirst + 1] = null;
         }
+
         size--;
-        return rem;
+        nextFirst++;
+        if (nextFirst == items.length) {
+            nextFirst = 0;
+        }
+        return toRemove;
     }
 
     /**
      * Removes and returns the item at the back of the deque. If no such item exists, returns null.
      */
     public T removeLast() {
-        if (isEmpty()) {
-            return null;
-        }
-        T rem = items[last];
-        items[last] = null;
-
-        if (size == 1) {
-            first = 0;
-            last = 0;
-        } else if (last == 0) {
-            last = items.length - 1;
+        T toRemove = get(size - 1);
+        if (nextLast == 0) {
+            items[items.length - 1] = null;
         } else {
-            last--;
+            items[nextLast - 1] = null;
         }
+
         size--;
-        return rem;
+        nextLast--;
+        if (nextLast == -1) {
+            nextFirst = items.length - 1;
+        }
+        return toRemove;
     }
 
     /**
@@ -160,13 +132,6 @@ public class ArrayDeque<T> {
      */
     public boolean isEmpty() {
         return size == 0;
-    }
-
-    /**
-     * Returns true if deque is full, false otherwise.
-     */
-    private boolean isFull() {
-        return size == items.length - 1;
     }
 
     /**
@@ -190,21 +155,12 @@ public class ArrayDeque<T> {
      * and so forth. If no such item exists, returns null. Must not alter the deque!
      */
     public T get(int index) {
-        return items[index];
+        if (index >= size) {
+            return null;
+        }
+        int mod = (nextFirst + 1 + index) % items.length;
+        return items[mod];
     }
-
-    /**
-     * Double the size of the deque if it is almost full(80%)
-     */
-//    private void resizeUp(int capacity) {
-//    }
-//
-//    /**
-//     * Halve the size of the deque if it is almost empty(25%)
-//     */
-//    private void resizeDown(int capacity) {
-//
-//    }
 
     /**
      * get the load factor of an deque

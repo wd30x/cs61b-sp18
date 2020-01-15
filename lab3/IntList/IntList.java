@@ -139,6 +139,24 @@ public class IntList {
     }
 
     /**
+     * Returns the reverse of the given IntList.
+     * This method is destructive. If given null
+     * as an input, returns null.
+     */
+    private static IntList successor = null;
+    public static IntList reverseN(IntList head, int n) {
+        if (n == 1) {
+            successor = head.rest;
+            return head;
+        }
+
+        IntList last = reverseN(head.rest, n - 1);
+        head.rest.rest = head;
+        head.rest = successor;
+        return last;
+    }
+
+    /**
      * DO NOT MODIFY ANYTHING BELOW THIS LINE! Many of the concepts below here
      * will be introduced later in the course or feature some form of advanced
      * trickery which we implemented to help make your life a little easier for
