@@ -15,13 +15,6 @@ public class ArrayDeque<T> {
     }
 
     /**
-     * Creates a deep copy of other
-     **/
-    public ArrayDeque(ArrayDeque other) {
-
-    }
-
-    /**
      * Adds an item of type T to the front of the deque.
      */
     public void addFirst(T item) {
@@ -82,7 +75,7 @@ public class ArrayDeque<T> {
         size--;
         nextLast--;
         if (nextLast == -1) {
-            nextFirst = items.length - 1;
+            nextLast = items.length - 1;
         }
         return toRemove;
     }
