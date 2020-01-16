@@ -4,32 +4,6 @@ public class ArrayDeque<T> {
     private int nextFirst;
     private int nextLast;
 
-    public static void main(String[] args) {
-        ArrayDeque<Integer> d = new ArrayDeque<>();
-        d.addFirst(0);
-        d.removeLast(); //==> 0
-        d.addLast(2);
-        d.removeLast(); //==> 2
-        d.addLast(4);
-        d.removeLast(); //==> 4
-        d.addFirst(6);
-        d.removeFirst(); //==> 6
-        d.addLast(8);
-        d.addFirst(9);
-        d.addLast(10);
-        d.get(2);//==> 10
-        d.addLast(12);
-        d.addFirst(13);
-        d.addFirst(14);
-        d.addLast(15);
-        d.removeLast();   //==> 15
-        d.addFirst(17);
-        d.addFirst(18);
-        d.addLast(19);
-        d.get(6); //==> 10
-        d.removeFirst();  //==> 18
-    }
-
     /**
      * Creates an empty array deque
      */
@@ -158,59 +132,34 @@ public class ArrayDeque<T> {
      * resize the array
      **/
     private void resize() {
+        boolean flag = false;
+        T[] arr = (T[]) new Object[items.length * 2];
         if (getLoadFactor() > 0.75) {
-            T[] arr = (T[]) new Object[items.length * 2];
+            flag = true;
         }
         if (items.length >= 16) {
             if (getLoadFactor() < 0.25) {
-                T[] arr = (T[]) new Object[items.length / 2];
+                arr = (T[]) new Object[items.length / 2];
+                flag = true;
             }
         }
-    }
-
-    /**
-     * expand the array
-     **/
-    private void resizeUp() {
-        T[] big = (T[]) new Object[items.length * 2];
-        if (items[0] == null && items[items.length - 1] == null) {
-            System.arraycopy(items, nextFirst + 1, big, 0, size);
-        } else {
-            System.arraycopy(items, nextFirst + 1, big, 0, items.length - nextFirst - 1);
-            int len = 0;
-            for (int i = 0; i < big.length; i++) {
-                if (big[i] != null) {
-                    len++;
+        if (flag) {
+            if (items[0] == null && items[items.length - 1] == null) {
+                System.arraycopy(items, nextFirst + 1, arr, 0, size);
+            } else {
+                System.arraycopy(items, nextFirst + 1, arr, 0, items.length - nextFirst - 1);
+                int len = 0;
+                for (int i = 0; i < arr.length; i++) {
+                    if (arr[i] != null) {
+                        len++;
+                    }
                 }
+                System.arraycopy(items, 0, arr, len, nextLast);
             }
-            System.arraycopy(items, 0, big, len, nextLast);
+            items = arr;
+
+            nextFirst = arr.length - 1;
+            nextLast = size;
         }
-        items = big;
-
-        nextFirst = big.length - 1;
-        nextLast = size;
-    }
-
-    /**
-     * shrink the array
-     **/
-    private void resizeDown() {
-        T[] small = (T[]) new Object[items.length / 2];
-        if (items[0] == null && items[items.length - 1] == null) {
-            System.arraycopy(items, nextFirst + 1, small, 0, size);
-        } else {
-            System.arraycopy(items, nextFirst + 1, small, 0, items.length - nextFirst - 1);
-            int len = 0;
-            for (int i = 0; i < small.length; i++) {
-                if (small[i] != null) {
-                    len++;
-                }
-            }
-            System.arraycopy(items, 0, small, len, nextLast);
-        }
-        items = small;
-
-        nextFirst = small.length - 1;
-        nextLast = size;
     }
 }
