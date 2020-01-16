@@ -4,6 +4,28 @@ public class ArrayDeque<T> {
     private int nextFirst;
     private int nextLast;
 
+    public static void main(String[] args) {
+        ArrayDeque<Integer> d = new ArrayDeque<>();
+        d.addFirst(0);
+        d.addFirst(1);
+        d.addFirst(2);
+        d.addFirst(3);
+        d.addFirst(4);
+        d.addFirst(5);
+        d.addFirst(6);
+        d.addFirst(7);
+        d.addFirst(8);
+        d.removeLast();
+        d.removeLast();
+        d.removeLast();
+        d.removeLast();
+        d.removeLast();
+        d.removeLast();
+        d.removeLast();
+        d.removeLast();
+        d.removeLast();
+
+    }
     /**
      * Creates an empty array deque
      */
@@ -134,7 +156,7 @@ public class ArrayDeque<T> {
     private void resize() {
         boolean flag = false;
         T[] arr = (T[]) new Object[items.length * 2];
-        if (getLoadFactor() > 0.75) {
+        if (getLoadFactor() == 1) {
             flag = true;
         }
         if (items.length >= 16) {
