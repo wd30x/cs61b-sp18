@@ -150,9 +150,10 @@ public class ArrayDeque<T> {
                 System.arraycopy(items, nextFirst + 1, arr, 0, items.length - nextFirst - 1);
                 int len = 0;
                 for (int i = 0; i < arr.length; i++) {
-                    if (arr[i] != null) {
-                        len++;
+                    if (arr[i] == null) {
+                        break;
                     }
+                    len++;
                 }
                 System.arraycopy(items, 0, arr, len, nextLast);
             }
