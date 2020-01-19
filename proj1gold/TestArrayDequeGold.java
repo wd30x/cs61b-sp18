@@ -61,26 +61,26 @@ public class TestArrayDequeGold {
         ads.removeLast();
 
         //assertEquals(""+"sad.removeFirst()",ads.removeFirst(),sad.removeFirst());
-        assertEquals("\naddFirst(" + num4 + ");\n" +
-                "addFirst(" + num4 + ");\n" +
-                "addFirst(" + num4 + ");\n" +
-                "addFirst(" + num4 + ");\n" +
-                "addFirst(" + num4 + ");\n" +
-                "addFirst(" + num1 + ");\n" +
-                "addLast(" + num2 + ");\n" +
-                "addLast(" + num3 + ");\n" +
-                "addFirst(" + num4 + ");\n" +
-                "removeLast();\n" +
-                "addLast(" + num5 + ");\n" +
-                "removeFirst();\n" +
-                "addFirst(" + num6 + ");\n" +
-                "addLast(" + num7 + ");\n" +
-                "addFirst(" + num8 + ");\n" +
-                "removeLast();\n" +
-                "removeLast();\n" +
-                "removeLast();\n" +
-                "removeLast();\n" +
-                "removeLast();\n" +
-                "removeLast();\n", ads.removeLast(), sad.removeLast());
+        assertEquals("\naddFirst(" + num4 + ");\n"
+                + "addFirst(" + num4 + ");\n"
+                + "addFirst(" + num4 + ");\n"
+                + "addFirst(" + num4 + ");\n"
+                + "addFirst(" + num4 + ");\n"
+                + "addFirst(" + num1 + ");\n"
+                + "addLast(" + num2 + ");\n"
+                + "addLast(" + num3 + ");\n"
+                + "addFirst(" + num4 + ");\n"
+                + "removeLast();\n"
+                + "addLast(" + num5 + ");\n"
+                + "removeFirst();\n"
+                + "addFirst(" + num6 + ");\n"
+                + "addLast(" + num7 + ");\n"
+                + "addFirst(" + num8 + ");\n"
+                + "removeLast();\n"
+                + "removeLast();\n"
+                + "removeLast();\n"
+                + "removeLast();\n"
+                + "removeLast();\n"
+                + "removeLast();\n", ads.removeLast(), sad.removeLast());
     }
 }
