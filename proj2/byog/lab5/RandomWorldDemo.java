@@ -7,7 +7,7 @@ import byog.TileEngine.Tileset;
 import java.util.Random;
 
 /**
- * Draws a world that contains RANDOM tiles.
+ * Draws a world that contains RANDOM tiles 123.
  */
 public class RandomWorldDemo {
     private static final int WIDTH = 50;
