@@ -30,30 +30,19 @@ public class HexWorld {
 
     public static void addHexagon(TETile[][] world, Position p, int s, TETile t) {
         int count = s;
-        int dy = p.y + s - 1;
+        int dy1 = p.y + s - 1;
+        int dy2 = p.y + s;
         int dx = p.x;
         int mid = 3 * s - 2;
         while (count > 0) {
             for (int x = dx; x < mid; x += 1) {
-                world[x][dy] = t;
+                world[x][dy1] = t;
+                world[x][dy2] = t;
             }
             mid--;
             dx++;
-            dy--;
-            count--;
-        }
-
-        count = s;
-        dy = p.y + s;
-        dx = p.x;
-        mid = 3 * s - 2;
-        while (count > 0) {
-            for (int x = dx; x < mid; x += 1) {
-                world[x][dy] = t;
-            }
-            mid--;
-            dx++;
-            dy++;
+            dy1--;
+            dy2++;
             count--;
         }
 
