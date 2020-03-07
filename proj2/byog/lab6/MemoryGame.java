@@ -145,6 +145,7 @@ public class MemoryGame {
                     gameOver = true;
                     break;
                 }
+                Thread.sleep(500);
                 drawFrame("Correct!");
                 Thread.sleep(1000);
                 round++;
