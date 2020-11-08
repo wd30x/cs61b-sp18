@@ -31,6 +31,7 @@ public class MemoryGame {
 
         MemoryGame game = new MemoryGame(40, 40, seed);
         game.startGame();
+        
     }
 
     public MemoryGame(int width, int height, int seed) {
@@ -47,12 +48,10 @@ public class MemoryGame {
         StdDraw.clear(Color.BLACK);
         StdDraw.enableDoubleBuffering();
 
-        //TODO: Initialize random number generator
         rand = new Random(seed);
     }
 
     public String generateRandomString(int n) {
-        //TODO: Generate random string of letters of length n
         StringBuilder s = new StringBuilder();
         while (n > 0) {
             int index = rand.nextInt(25);
@@ -63,14 +62,12 @@ public class MemoryGame {
     }
 
     public void drawFrame(String s) {
-        //TODO: Take the string and display it in the center of the screen
         StdDraw.clear(Color.BLACK);
         Font font = new Font("Monaco", Font.BOLD, 25);
         StdDraw.setFont(font);
         StdDraw.setPenColor(Color.WHITE);
         StdDraw.text(this.width / 2.0, this.height / 2.0, s);
         StdDraw.show();
-        //TODO: If game is not over, display relevant game information at the top of the screen
         drawInfo();
     }
 
@@ -92,7 +89,6 @@ public class MemoryGame {
 
     public void flashSequence(String letters) {
         try {
-            //TODO: Display each character in letters, making sure to blank the screen between letters
             System.out.println(letters);
             for (int i = 0; i < letters.length(); i++) {
                 drawFrame(String.valueOf(letters.charAt(i)));
@@ -108,7 +104,6 @@ public class MemoryGame {
     }
 
     public String solicitNCharsInput(int n) {
-        //TODO: Read n letters of player input
         playerTurn = true;
         StringBuilder s = new StringBuilder();
         StdDraw.clear(Color.BLACK);
@@ -127,8 +122,6 @@ public class MemoryGame {
     }
 
     public void startGame() {
-        //TODO: Set any relevant variables before the game starts
-        //TODO: Establish Game loop
         try {
             StringBuilder sb = new StringBuilder();
             String s = "";

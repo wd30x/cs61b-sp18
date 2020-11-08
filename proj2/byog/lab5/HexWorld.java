@@ -1,10 +1,5 @@
 package byog.lab5;
 
-import javafx.geometry.Pos;
-import org.junit.Test;
-
-import static org.junit.Assert.*;
-
 import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
