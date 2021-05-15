@@ -16,6 +16,16 @@ public class RandomWorldDemo {
     private static final long SEED = 2873123;
     private static final Random RANDOM = new Random(SEED);
 
+    public static void main(String[] args) {
+        TERenderer ter = new TERenderer();
+        ter.initialize(WIDTH, HEIGHT);
+
+        TETile[][] randomTiles = new TETile[WIDTH][HEIGHT];
+        fillWithRandomTiles(randomTiles);
+
+        ter.renderFrame(randomTiles);
+    }
+
     /**
      * Fills the given 2D array of tiles with RANDOM tiles.
      *
@@ -49,16 +59,4 @@ public class RandomWorldDemo {
                 return Tileset.NOTHING;
         }
     }
-
-    public static void main(String[] args) {
-        TERenderer ter = new TERenderer();
-        ter.initialize(WIDTH, HEIGHT);
-
-        TETile[][] randomTiles = new TETile[WIDTH][HEIGHT];
-        fillWithRandomTiles(randomTiles);
-
-        ter.renderFrame(randomTiles);
-    }
-
-
 }

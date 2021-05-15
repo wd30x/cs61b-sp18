@@ -12,8 +12,38 @@ import java.util.Random;
 public class HexWorld {
     private static final int WIDTH = 70;
     private static final int HEIGHT = 50;
-    private static final long SEED = 1823914;
+    private static final long SEED = 182391;
     private static final Random RANDOM = new Random(SEED);
+
+    public static void main(String[] args) {
+        TERenderer ter = new TERenderer();
+        ter.initialize(WIDTH, HEIGHT);
+
+        // initialize tiles
+        TETile[][] world = new TETile[WIDTH][HEIGHT];
+        //fill
+        fillNothing(world);
+
+        //middle part
+        Position p = new Position(25, 40);
+        drawRandomVerticalHexes(world, p, 3, 5);
+
+        p = new Position(25, 40);
+        Position pl = bottomLeft(p, 3);
+        drawRandomVerticalHexes(world, pl, 3, 4);
+
+
+        pl = bottomLeft(p, 3);
+        drawRandomVerticalHexes(world, bottomLeft(pl, 3), 3, 3);
+
+        p = new Position(25, 40);
+        Position pr = bottomRight(p, 3);
+        drawRandomVerticalHexes(world, pr, 3, 4);
+        pr = bottomRight(p, 3);
+        drawRandomVerticalHexes(world, bottomRight(pr, 3), 3, 3);
+
+        ter.renderFrame(world);
+    }
 
     static class Position {
         int x;
@@ -42,7 +72,6 @@ public class HexWorld {
             dy2++;
             count--;
         }
-
     }
 
     public static Position bottomLeft(Position p, int s) {
@@ -53,6 +82,7 @@ public class HexWorld {
         return new Position(p.x + (2 * s - 1), p.y - s);
     }
 
+    //N is number of hexes
     public static void drawRandomVerticalHexes(TETile[][] world, Position p, int s, int N) {
         TETile tile;
         while (N > 0) {
@@ -83,31 +113,5 @@ public class HexWorld {
                 tiles[x][y] = Tileset.NOTHING;
             }
         }
-    }
-
-    public static void main(String[] args) {
-        TERenderer ter = new TERenderer();
-        ter.initialize(WIDTH, HEIGHT);
-
-        // initialize tiles
-        TETile[][] world = new TETile[WIDTH][HEIGHT];
-        //fill
-        fillNothing(world);
-
-        Position p = new Position(25, 40);
-        drawRandomVerticalHexes(world, p, 3, 5);
-        p = new Position(25, 40);
-        Position pl = bottomLeft(p, 3);
-        drawRandomVerticalHexes(world, pl, 3, 4);
-        pl = bottomLeft(p, 3);
-        drawRandomVerticalHexes(world, bottomLeft(pl, 3), 3, 3);
-
-        p = new Position(25, 40);
-        Position pr = bottomRight(p, 3);
-        drawRandomVerticalHexes(world, pr, 3, 4);
-        pr = bottomRight(p, 3);
-        drawRandomVerticalHexes(world, bottomRight(pr, 3), 3, 3);
-
-        ter.renderFrame(world);
     }
 }
