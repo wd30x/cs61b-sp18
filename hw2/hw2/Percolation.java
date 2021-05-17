@@ -6,6 +6,7 @@ public class Percolation {
     private int N;
     private int numOpen;
     private WeightedQuickUnionUF uf;
+    private WeightedQuickUnionUF uf2;
     private boolean[] grid;
     private int topIndex;
     private int botIndex;
@@ -18,11 +19,13 @@ public class Percolation {
         this.N = N;
         numOpen = 0;
         uf = new WeightedQuickUnionUF(N * N + 2);
+        uf2 = new WeightedQuickUnionUF(N * N + 1);
         grid = new boolean[N * N + 2];
         topIndex = N * N;
         botIndex = topIndex + 1;
         for (int i = 0; i < N; i++) {
             uf.union(i, topIndex);
+            uf2.union(i, topIndex);
         }
         for (int i = N * N - N; i < N * N; i++) {
             uf.union(i, botIndex);
@@ -36,15 +39,19 @@ public class Percolation {
             grid[index] = true;
             if (col - 1 >= 0 && isOpen(row, col - 1)) {
                 uf.union(index, index - 1);
+                uf2.union(index, index - 1);
             }
             if (col + 1 < N && isOpen(row, col + 1)) {
                 uf.union(index, index + 1);
+                uf2.union(index, index + 1);
             }
             if (row - 1 >= 0 && isOpen(row - 1, col)) {
                 uf.union(index, index - N);
+                uf2.union(index, index - N);
             }
             if (row + 1 < N && isOpen(row + 1, col)) {
                 uf.union(index, index + N);
+                uf2.union(index, index + N);
             }
             numOpen++;
         }
@@ -59,7 +66,7 @@ public class Percolation {
     // is the site (row, col) full?
     public boolean isFull(int row, int col) {
         int index = xyTo1D(row, col);
-        if (uf.connected(index, topIndex) && isOpen(row, col)) {
+        if (uf2.connected(index, topIndex) && isOpen(row, col)) {
             return true;
         } else {
             return false;
