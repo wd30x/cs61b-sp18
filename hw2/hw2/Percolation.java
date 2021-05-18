@@ -1,5 +1,6 @@
 package hw2;
 
+import edu.princeton.cs.algs4.Stopwatch;
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
@@ -89,8 +90,13 @@ public class Percolation {
 
     // use for unit testing (not required)
     public static void main(String[] args) {
-        Percolation p = new Percolation(5);
-        System.out.println(p.xyTo1D(3, 4));
+        Stopwatch s = new Stopwatch();
+        PercolationStats p = new PercolationStats(200, 50, new PercolationFactory());
+        System.out.println(s.elapsedTime());
+        System.out.println(p.mean());
+        System.out.println(p.stddev());
+        System.out.println(p.confidenceLow());
+        System.out.println(p.confidenceHigh());
     }
 
     // convert x,y coordinates to 1d number
