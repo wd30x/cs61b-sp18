@@ -6,8 +6,8 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 public class Percolation {
     private int N;
     private int numOpen;
-    private WeightedQuickUnionUF uf;
-    private WeightedQuickUnionUF uf2;
+    private WeightedQuickUnionUF uf;    //top and bottom site
+    private WeightedQuickUnionUF uf2;   //top site
     private boolean[] grid;
     private int topIndex;
     private int botIndex;
@@ -67,11 +67,7 @@ public class Percolation {
     // is the site (row, col) full?
     public boolean isFull(int row, int col) {
         int index = xyTo1D(row, col);
-        if (uf2.connected(index, topIndex) && isOpen(row, col)) {
-            return true;
-        } else {
-            return false;
-        }
+        return uf2.connected(index, topIndex) && isOpen(row, col);
     }
 
     // number of open sites
@@ -81,22 +77,15 @@ public class Percolation {
 
     // does the system percolate?
     public boolean percolates() {
-        if (uf.connected(topIndex, botIndex)) {
-            return true;
-        } else {
-            return false;
+        if (N == 1) {
+            return isOpen(0, 0);
         }
+        return uf.connected(topIndex, botIndex);
     }
 
     // use for unit testing (not required)
     public static void main(String[] args) {
-        Stopwatch s = new Stopwatch();
-        PercolationStats p = new PercolationStats(200, 50, new PercolationFactory());
-        System.out.println(s.elapsedTime());
-        System.out.println(p.mean());
-        System.out.println(p.stddev());
-        System.out.println(p.confidenceLow());
-        System.out.println(p.confidenceHigh());
+        Percolation p = new Percolation(1);
     }
 
     // convert x,y coordinates to 1d number
