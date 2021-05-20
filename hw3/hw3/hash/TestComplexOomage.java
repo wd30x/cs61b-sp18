@@ -38,8 +38,8 @@ public class TestComplexOomage {
     public void testWithDeadlyParams() {
         List<Oomage> deadlyList = new ArrayList<>();
         List<Integer> l = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
-            l.add(i);
+        for (int i = 0; i < 5; i++) {
+            l.add(5);
         }
         for (int i = 0; i < 10000; i++) {
             deadlyList.add(new ComplexOomage(l));
