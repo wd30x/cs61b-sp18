@@ -32,7 +32,6 @@ public class HexWorld {
         Position pl = bottomLeft(p, 3);
         drawRandomVerticalHexes(world, pl, 3, 4);
 
-
         pl = bottomLeft(p, 3);
         drawRandomVerticalHexes(world, bottomLeft(pl, 3), 3, 3);
 
