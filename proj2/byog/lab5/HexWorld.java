@@ -106,7 +106,7 @@ public class HexWorld {
         }
     }
 
-    public static void fillNothing(TETile[][] tiles) {
+    private static void fillNothing(TETile[][] tiles) {
         for (int x = 0; x < WIDTH; x += 1) {
             for (int y = 0; y < HEIGHT; y += 1) {
                 tiles[x][y] = Tileset.NOTHING;
