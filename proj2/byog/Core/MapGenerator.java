@@ -27,9 +27,8 @@ public class MapGenerator {
         for (int i = 0; i < count; i++) {
 
             Position p = new Position(RANDOM.nextInt(80), RANDOM.nextInt(20));
-            int roomWidth = RANDOM.nextInt(2, 10);
-            int roomHeight = RANDOM.nextInt(2, 10);
-
+            int roomWidth =  RandomUtils.uniform(RANDOM,2,10);
+            int roomHeight = RandomUtils.uniform(RANDOM,2,10);
             drawRoom(world, p, roomWidth, roomHeight);
         }
         Collections.sort(roomList);
@@ -127,8 +126,8 @@ public class MapGenerator {
 
     private static Position randomPointInRoom(Room r) {
         Position rPos = r.getP();
-        int randX = RANDOM.nextInt(rPos.x + 1, rPos.x + r.getWidth() - 2);
-        int randY = RANDOM.nextInt(rPos.y + 1, rPos.y + r.getHeight() - 2);
+        int randX = RandomUtils.uniform(RANDOM,rPos.x + 1, rPos.x + r.getWidth() - 2);
+        int randY = RandomUtils.uniform(RANDOM,rPos.y + 1, rPos.y + r.getHeight() - 2);
         return new Position(randX, randY);
     }
 
