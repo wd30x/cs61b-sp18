@@ -18,7 +18,7 @@ public class MapGenerator {
     public static TETile[][] generate(String input,int width, int height) {
         WIDTH = width;
         HEIGHT = height;
-        SEED = Integer.parseInt(input);
+        SEED = Long.parseLong(input);
         RANDOM = new Random(SEED);
         TETile[][] world = new TETile[WIDTH][HEIGHT];
         fillNothing(world);
