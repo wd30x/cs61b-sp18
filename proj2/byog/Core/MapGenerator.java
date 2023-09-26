@@ -13,19 +13,19 @@ public class MapGenerator {
     private static int HEIGHT;
     private static long SEED;
     private static Random RANDOM;
-    private static final ArrayList<Room> roomList = new ArrayList<>();
+    private static ArrayList<Room> roomList;
 
     public static TETile[][] generate(String input,int width, int height) {
         WIDTH = width;
         HEIGHT = height;
         SEED = Long.parseLong(input);
         RANDOM = new Random(SEED);
+        roomList = new ArrayList<>();
         TETile[][] world = new TETile[WIDTH][HEIGHT];
         fillNothing(world);
 
         int count = 30;
         for (int i = 0; i < count; i++) {
-
             Position p = new Position(RANDOM.nextInt(80), RANDOM.nextInt(20));
             int roomWidth =  RandomUtils.uniform(RANDOM,2,10);
             int roomHeight = RandomUtils.uniform(RANDOM,2,10);
