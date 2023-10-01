@@ -9,33 +9,32 @@ import java.util.Random;
 
 public class MapGenerator {
 
-    private static int WIDTH;
-    private static int HEIGHT;
-    private static long SEED;
-    private static Random RANDOM;
+    private static int mapWidth;
+    private static int mapHeight;
+    private static long seed;
+    private static Random rand;
     private static ArrayList<Room> roomList;
 
-    public static TETile[][] generate(String input,int width, int height) {
-        WIDTH = width;
-        HEIGHT = height;
-        SEED = Long.parseLong(input);
-        RANDOM = new Random(SEED);
+    public static TETile[][] generate(long Seed, int Width, int Height) {
+        seed = Seed;
+        mapWidth = Width;
+        mapHeight = Height;
+        rand = new Random(seed);
         roomList = new ArrayList<>();
-        TETile[][] world = new TETile[WIDTH][HEIGHT];
+        TETile[][] world = new TETile[mapWidth][mapHeight];
         fillNothing(world);
 
-        int count = 30;
+        int count = RandomUtils.uniform(rand, 40, 50);
         for (int i = 0; i < count; i++) {
-            Position p = new Position(RANDOM.nextInt(80), RANDOM.nextInt(20));
-            int roomWidth =  RandomUtils.uniform(RANDOM,2,10);
-            int roomHeight = RandomUtils.uniform(RANDOM,2,10);
+            Position p = new Position(rand.nextInt(100), rand.nextInt(100));
+            int roomWidth = RandomUtils.uniform(rand, 2, 10);
+            int roomHeight = RandomUtils.uniform(rand, 2, 10);
             drawRoom(world, p, roomWidth, roomHeight);
         }
         Collections.sort(roomList);
         for (int i = 0; i < roomList.size() - 1; i++) {
             drawLHallway(world, randomPointInRoom(roomList.get(i)), randomPointInRoom(roomList.get(i + 1)));
         }
-
         return world;
     }
 
@@ -46,11 +45,16 @@ public class MapGenerator {
         Room room = new Room(p, outerWidth, outerHeight);
 
         boolean flag = true;
+        //if rooms overlap
         for (int i = 0; i < roomList.size(); i++) {
             if (room.overlap(roomList.get(i))) {
                 flag = false;
                 break;
             }
+        }
+        //if border is exceeded
+        if (p.x + outerWidth> mapWidth || p.y + outerHeight > mapHeight) {
+            flag = false;
         }
         if (flag) {
             TETile tile;
@@ -110,30 +114,30 @@ public class MapGenerator {
         TETile t = Tileset.FLOOR;
         drawLLine(tiles, t, p1, p2);
         t = Tileset.WALL;
-        Position p3,p4,p5,p6;
+        Position p3, p4, p5, p6;
         if (p1.y < p2.y) {
-            p3 = new Position(p1.x,p1.y+1);
-            p5 = new Position(p1.x,p1.y-1);
-        }else{
-            p3 = new Position(p1.x,p1.y-1);
-            p5 = new Position(p1.x,p1.y+1);
+            p3 = new Position(p1.x, p1.y + 1);
+            p5 = new Position(p1.x, p1.y - 1);
+        } else {
+            p3 = new Position(p1.x, p1.y - 1);
+            p5 = new Position(p1.x, p1.y + 1);
         }
-        p4 = new Position(p2.x-1,p2.y);
-        p6 = new Position(p2.x+1,p2.y);
+        p4 = new Position(p2.x - 1, p2.y);
+        p6 = new Position(p2.x + 1, p2.y);
         drawLLine(tiles, t, p3, p4);
         drawLLine(tiles, t, p5, p6);
     }
 
     private static Position randomPointInRoom(Room r) {
         Position rPos = r.getP();
-        int randX = RandomUtils.uniform(RANDOM,rPos.x + 1, rPos.x + r.getWidth() - 2);
-        int randY = RandomUtils.uniform(RANDOM,rPos.y + 1, rPos.y + r.getHeight() - 2);
+        int randX = RandomUtils.uniform(rand, rPos.x + 1, rPos.x + r.getWidth() - 2);
+        int randY = RandomUtils.uniform(rand, rPos.y + 1, rPos.y + r.getHeight() - 2);
         return new Position(randX, randY);
     }
 
     private static void fillNothing(TETile[][] tiles) {
-        for (int x = 0; x < WIDTH; x += 1) {
-            for (int y = 0; y < HEIGHT; y += 1) {
+        for (int x = 0; x < mapWidth; x += 1) {
+            for (int y = 0; y < mapHeight; y += 1) {
                 tiles[x][y] = Tileset.NOTHING;
             }
         }

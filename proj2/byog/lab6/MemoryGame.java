@@ -81,7 +81,6 @@ public class MemoryGame {
             } else {
                 StdDraw.text(20, 38, "Watch!");
             }
-
             StdDraw.text(34, 38, ENCOURAGEMENT[index]);
             StdDraw.show();
         }
@@ -111,7 +110,7 @@ public class MemoryGame {
         while (n > 0) {
             if (StdDraw.hasNextKeyTyped()) {
                 s.append(StdDraw.nextKeyTyped());
-                System.out.println(s.toString());
+                System.out.println(s);
 
                 drawFrame(s.toString());
                 n--;
