@@ -14,6 +14,7 @@ public class MapGenerator {
     private static long seed;
     private static Random rand;
     private static ArrayList<Room> roomList;
+    private static TETile[][] world;
 
     public static TETile[][] generate(long Seed, int Width, int Height) {
         seed = Seed;
@@ -21,7 +22,7 @@ public class MapGenerator {
         mapHeight = Height;
         rand = new Random(seed);
         roomList = new ArrayList<>();
-        TETile[][] world = new TETile[mapWidth][mapHeight];
+        world = new TETile[mapWidth][mapHeight];
         fillNothing(world);
 
         int count = RandomUtils.uniform(rand, 40, 50);
@@ -35,6 +36,12 @@ public class MapGenerator {
         for (int i = 0; i < roomList.size() - 1; i++) {
             drawLHallway(world, randomPointInRoom(roomList.get(i)), randomPointInRoom(roomList.get(i + 1)));
         }
+
+        //generate character and door
+        Position p = randomPointInRoom(roomList.get(0));
+        world[p.x][p.y] = Tileset.PLAYER;
+        p = randomPointInWall(roomList.get(0));
+        world[p.x][p.y] = Tileset.LOCKED_DOOR;
         return world;
     }
 
@@ -53,7 +60,7 @@ public class MapGenerator {
             }
         }
         //if border is exceeded
-        if (p.x + outerWidth> mapWidth || p.y + outerHeight > mapHeight) {
+        if (p.x + outerWidth > mapWidth || p.y + outerHeight > mapHeight) {
             flag = false;
         }
         if (flag) {
@@ -132,6 +139,17 @@ public class MapGenerator {
         Position rPos = r.getP();
         int randX = RandomUtils.uniform(rand, rPos.x + 1, rPos.x + r.getWidth() - 2);
         int randY = RandomUtils.uniform(rand, rPos.y + 1, rPos.y + r.getHeight() - 2);
+        return new Position(randX, randY);
+    }
+
+    private static Position randomPointInWall(Room r) {
+        Position rPos = r.getP();
+        int randX = 0;
+        int randY = 0;
+        while (!world[randX][randY].equals(Tileset.WALL)) {
+            randX = RandomUtils.uniform(rand, rPos.x, rPos.x + r.getWidth() - 1);
+            randY = RandomUtils.uniform(rand, rPos.y, rPos.y + r.getHeight() - 1);
+        }
         return new Position(randX, randY);
     }
 

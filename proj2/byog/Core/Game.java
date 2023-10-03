@@ -2,21 +2,27 @@ package byog.Core;
 
 import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
+import byog.TileEngine.Tileset;
 import edu.princeton.cs.introcs.StdDraw;
 
 import java.awt.*;
+import java.io.*;
 
-public class Game {
-    TERenderer ter = new TERenderer();
+public class Game implements Serializable {
+    transient TERenderer ter = new TERenderer();
+    private static final long serialVersionUID = 123123123123123L;
     /* Feel free to change the width and height. */
     public static final int WIDTH = 80;
     public static final int HEIGHT = 80;
-
     private static final int midWidth = WIDTH / 2;
     private static final int midHeight = HEIGHT / 2;
     private static final int quaHeight = midHeight / 2;
-    private static long seed;
-    private static TETile[][] world;
+    private long seed;
+    private TETile[][] world;
+    private boolean gameOver;
+    private Position playerPos;
+    private Position doorPos;
+    private TETile hidden = Tileset.FLOOR;
 
     /**
      * Game constructor
@@ -39,27 +45,21 @@ public class Game {
         while (true) {
             if (StdDraw.hasNextKeyTyped()) {
                 char cmd = StdDraw.nextKeyTyped();
-                //N: prompt user to enter seed
+                // N: prompt user to enter seed
                 if (cmd == 'N') {
                     promptSeed();
                     world = MapGenerator.generate(seed, WIDTH, HEIGHT);
-                    ter.initialize(WIDTH, HEIGHT);
+                    ter.initialize(WIDTH, HEIGHT + 5);
                 } else if (cmd == 'L') {
-                    //load game
-//                    world = loadGame();
-                } else if (cmd == ':') {
-                    while (true) {
-                        if (StdDraw.hasNextKeyTyped() && StdDraw.nextKeyTyped() == 'Q') {
-                            // save and quit game
-                            saveGame();
-                            System.exit(0);
-                        }
-                    }
+                    // L: load game from saved file
+                    loadGame();
                 }
+                quit(cmd);
             }
             if (world != null) {
                 ter.renderFrame(world);
                 interact();
+                mouseHover();
             }
         }
 
@@ -108,21 +108,95 @@ public class Game {
      * Load game from file
      */
     private void loadGame() {
+        File f = new File("./game.ser");
+        if (f.exists()) {
+            try {
+                FileInputStream fs = new FileInputStream(f);
+                ObjectInputStream os = new ObjectInputStream(fs);
+                Game loadGame = (Game) os.readObject();
+                os.close();
 
+                //load saved game state
+                this.seed = loadGame.seed;
+                this.world = loadGame.world;
+                this.gameOver = loadGame.gameOver;
+                this.playerPos = loadGame.playerPos;
+                this.doorPos = loadGame.doorPos;
+                this.hidden = loadGame.hidden;
+                ter.initialize(WIDTH, HEIGHT + 5);
+            } catch (FileNotFoundException e) {
+                System.out.println("file not found");
+                System.exit(0);
+            } catch (IOException e) {
+                System.out.println(e);
+                System.exit(0);
+            } catch (ClassNotFoundException e) {
+                System.out.println("class not found");
+                System.exit(0);
+            }
+        }
     }
 
     /**
      * Save game to file
      */
     private void saveGame() {
+        File f = new File("./game.ser");
+        try {
+            if (!f.exists()) {
+                f.createNewFile();
+            }
+            FileOutputStream fs = new FileOutputStream(f);
+            ObjectOutputStream os = new ObjectOutputStream(fs);
+            os.writeObject(this);
+            os.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("file not found");
+            System.exit(0);
+        } catch (IOException e) {
+            System.out.println(e);
+            System.exit(0);
+        }
+    }
 
+    private void quit(char cmd) {
+        if (cmd == ':') {
+            while (true) {
+                if (StdDraw.hasNextKeyTyped() && StdDraw.nextKeyTyped() == 'Q') {
+                    // :Q: save and quit game
+                    saveGame();
+                    System.exit(0);
+                }
+            }
+        }
     }
 
     /**
-     * Interact with world
+     * Interact with world: WSAD or Enter
      */
     private void interact() {
+        initializePosition();
+        if (StdDraw.hasNextKeyTyped()) {
 
+            char cmd = StdDraw.nextKeyTyped();
+            quit(cmd);
+            move(cmd);
+        }
+    }
+
+    /**
+     * Character move
+     */
+    private void move(char c) {
+        int x = (c == 'A' ? -1 : (c == 'D' ? 1 : 0));
+        int y = (c == 'S' ? -1 : (c == 'W' ? 1 : 0));
+        if (!world[playerPos.x + x][playerPos.y + y].equals(Tileset.WALL)) {
+            world[playerPos.x][playerPos.y] = hidden;
+            playerPos.x += x;
+            playerPos.y += y;
+            hidden = world[playerPos.x][playerPos.y];
+            world[playerPos.x][playerPos.y] = Tileset.PLAYER;
+        }
     }
 
     /**
@@ -143,6 +217,18 @@ public class Game {
         }
     }
 
+    /**
+     * display description when mouse hovers on tiles
+     */
+    private void mouseHover() {
+
+    }
+
+    /**
+     * draw seed on the screen
+     *
+     * @param s
+     */
     private void drawSeedFrame(String s) {
         StdDraw.clear(Color.BLACK);
         StdDraw.setPenColor(Color.WHITE);
@@ -151,5 +237,18 @@ public class Game {
         StdDraw.text(midWidth, quaHeight + midHeight, "Please enter your seed:");
         StdDraw.text(midWidth, quaHeight + midHeight - 5, s);
         StdDraw.show();
+    }
+
+    private void initializePosition() {
+        for (int i = 0; i < WIDTH; i++) {
+            for (int j = 0; j < HEIGHT; j++) {
+                if (world[i][j].equals(Tileset.PLAYER)) {
+                    playerPos = new Position(i, j);
+                }
+                if (world[i][j].equals(Tileset.UNLOCKED_DOOR)) {
+                    doorPos = new Position(i, j);
+                }
+            }
+        }
     }
 }
