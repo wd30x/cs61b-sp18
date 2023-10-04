@@ -154,8 +154,7 @@ public class Game implements Serializable {
                 System.out.println("class not found");
                 System.exit(0);
             }
-        }
-        else{
+        } else {
             //no save found, program exits
             System.exit(0);
         }
@@ -167,9 +166,7 @@ public class Game implements Serializable {
     private void saveGame() {
         File f = new File("./game.ser");
         try {
-            if (!f.exists()) {
-                f.createNewFile();
-            }
+            f.createNewFile();
             FileOutputStream fs = new FileOutputStream(f);
             ObjectOutputStream os = new ObjectOutputStream(fs);
             os.writeObject(this);
@@ -212,7 +209,8 @@ public class Game implements Serializable {
     private void move(char c) {
         int x = (c == 'A' ? -1 : (c == 'D' ? 1 : 0));
         int y = (c == 'S' ? -1 : (c == 'W' ? 1 : 0));
-        if (!world[playerPos.x + x][playerPos.y + y].equals(Tileset.WALL)) {
+        if (!world[playerPos.x + x][playerPos.y + y].equals(Tileset.WALL)
+                || !world[playerPos.x + x][playerPos.y + y].equals(Tileset.LOCKED_DOOR)) {
             world[playerPos.x][playerPos.y] = hidden;
             playerPos.x += x;
             playerPos.y += y;
