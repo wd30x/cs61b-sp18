@@ -14,26 +14,15 @@ public class Game implements Serializable {
     /* Feel free to change the width and height. */
     public static final int WIDTH = 80;
     public static final int HEIGHT = 80;
-    private static final int midWidth = WIDTH / 2;
-    private static final int midHeight = HEIGHT / 2;
-    private static final int quaHeight = midHeight / 2;
+    private static final int MID_WIDTH = WIDTH / 2;
+    private static final int MID_HEIGHT = HEIGHT / 2;
+    private static final int QUA_HEIGHT = MID_HEIGHT / 2;
     private long seed;
     private TETile[][] world;
     private boolean gameOver;
     private Position playerPos;
     private Position doorPos;
     private TETile hidden = Tileset.FLOOR;
-
-    /**
-     * Game constructor
-     */
-    public Game() {
-        StdDraw.setCanvasSize(WIDTH * 16, HEIGHT * 16);
-        StdDraw.setXscale(0, WIDTH);
-        StdDraw.setYscale(0, HEIGHT);
-        StdDraw.clear(Color.BLACK);
-        StdDraw.enableDoubleBuffering();
-    }
 
     /**
      * Method used for playing a fresh game. The game should start from the main menu.
@@ -50,19 +39,25 @@ public class Game implements Serializable {
                     promptSeed();
                     world = MapGenerator.generate(seed, WIDTH, HEIGHT);
                     ter.initialize(WIDTH, HEIGHT + 5);
+                    initializePosition();
+                    break;
                 } else if (cmd == 'L') {
                     // L: load game from saved file
                     loadGame();
+                    break;
+                } else if (cmd == 'Q') {
+                    // Q: quit game
+                    System.exit(0);
                 }
-                quit(cmd);
             }
+        }
+        while (true) {
             if (world != null) {
                 ter.renderFrame(world);
                 interact();
                 mouseHover();
             }
         }
-
     }
 
     /**
@@ -79,10 +74,29 @@ public class Game implements Serializable {
      * @return the 2D TETile[][] representing the state of the world
      */
     public TETile[][] playWithInputString(String input) {
-        //TODO: need more design
-        input = input.substring(1, input.length() - 1);
-        seed = Long.parseLong(input);
-        world = MapGenerator.generate(seed, WIDTH, HEIGHT);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < input.length(); i++) {
+            char cmd = input.charAt(i);
+            if (cmd == 'N') {
+                //read seed
+                while (input.charAt(i) != 'S') {
+                    if (Character.isDigit(input.charAt(i))) {
+                        sb.append(input.charAt(i));
+                    }
+                    i++;
+                }
+                seed = Long.parseLong(sb.toString());
+                world = MapGenerator.generate(seed, WIDTH, HEIGHT);
+                initializePosition();
+            } else if (cmd == 'L') {
+                loadGame();
+            } else if (cmd == 'W' || cmd == 'S' || cmd == 'A' || cmd == 'D') {
+                move(cmd);
+            } else if (cmd == ':' && input.charAt(i + 1) == 'Q') {
+                i++;
+                saveGame();
+            }
+        }
         return world;
     }
 
@@ -90,17 +104,22 @@ public class Game implements Serializable {
      * Draw main menu
      */
     private static void drawMainMenu() {
+        StdDraw.setCanvasSize(WIDTH * 16, HEIGHT * 16);
+        StdDraw.setXscale(0, WIDTH);
+        StdDraw.setYscale(0, HEIGHT);
+        StdDraw.clear(Color.BLACK);
+        StdDraw.enableDoubleBuffering();
         StdDraw.clear(Color.BLACK);
         StdDraw.setPenColor(Color.WHITE);
         Font font = new Font("Monaco", Font.BOLD, 80);
         StdDraw.setFont(font);
-        StdDraw.text(midWidth, quaHeight + midHeight, "CS61B: THE GAME");
+        StdDraw.text(MID_WIDTH, QUA_HEIGHT + MID_HEIGHT, "CS61B: THE GAME");
         font = new Font("Monaco", Font.BOLD, 50);
         StdDraw.setFont(font);
         //draw
-        StdDraw.text(midWidth, midHeight, "New Game (N)");
-        StdDraw.text(midWidth, midHeight - 3, "Load Game (L)");
-        StdDraw.text(midWidth, midHeight - 6, "Quit (Q)");
+        StdDraw.text(MID_WIDTH, MID_HEIGHT, "New Game (N)");
+        StdDraw.text(MID_WIDTH, MID_HEIGHT - 3, "Load Game (L)");
+        StdDraw.text(MID_WIDTH, MID_HEIGHT - 6, "Quit (Q)");
         StdDraw.show();
     }
 
@@ -175,9 +194,7 @@ public class Game implements Serializable {
      * Interact with world: WSAD or Enter
      */
     private void interact() {
-        initializePosition();
         if (StdDraw.hasNextKeyTyped()) {
-
             char cmd = StdDraw.nextKeyTyped();
             quit(cmd);
             move(cmd);
@@ -226,16 +243,14 @@ public class Game implements Serializable {
 
     /**
      * draw seed on the screen
-     *
-     * @param s
      */
     private void drawSeedFrame(String s) {
         StdDraw.clear(Color.BLACK);
         StdDraw.setPenColor(Color.WHITE);
         Font font = new Font("Monaco", Font.BOLD, 60);
         StdDraw.setFont(font);
-        StdDraw.text(midWidth, quaHeight + midHeight, "Please enter your seed:");
-        StdDraw.text(midWidth, quaHeight + midHeight - 5, s);
+        StdDraw.text(MID_WIDTH, QUA_HEIGHT + MID_HEIGHT, "Please enter your seed:");
+        StdDraw.text(MID_WIDTH, QUA_HEIGHT + MID_HEIGHT - 5, s);
         StdDraw.show();
     }
 
