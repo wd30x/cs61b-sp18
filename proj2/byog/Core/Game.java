@@ -38,7 +38,6 @@ public class Game implements Serializable {
                 if (cmd == 'N') {
                     promptSeed();
                     world = MapGenerator.generate(seed, WIDTH, HEIGHT);
-                    ter.initialize(WIDTH, HEIGHT + 5);
                     initializePosition();
                     break;
                 } else if (cmd == 'L') {
@@ -51,6 +50,7 @@ public class Game implements Serializable {
                 }
             }
         }
+        ter.initialize(WIDTH, HEIGHT + 5);
         while (true) {
             if (world != null) {
                 ter.renderFrame(world);
@@ -143,7 +143,6 @@ public class Game implements Serializable {
                 this.playerPos = loadGame.playerPos;
                 this.doorPos = loadGame.doorPos;
                 this.hidden = loadGame.hidden;
-                ter.initialize(WIDTH, HEIGHT + 5);
             } catch (FileNotFoundException e) {
                 System.out.println("file not found");
                 System.exit(0);
