@@ -74,6 +74,7 @@ public class Game implements Serializable {
      * @return the 2D TETile[][] representing the state of the world
      */
     public TETile[][] playWithInputString(String input) {
+        input = input.toUpperCase();
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < input.length(); i++) {
             char cmd = input.charAt(i);
@@ -153,6 +154,10 @@ public class Game implements Serializable {
                 System.out.println("class not found");
                 System.exit(0);
             }
+        }
+        else{
+            //no save found, program exits
+            System.exit(0);
         }
     }
 
