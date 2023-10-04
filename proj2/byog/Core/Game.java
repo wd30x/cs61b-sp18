@@ -128,7 +128,7 @@ public class Game implements Serializable {
      * Load game from file
      */
     private void loadGame() {
-        File f = new File("./game.ser");
+        File f = new File("./game.txt");
         if (f.exists()) {
             try {
                 FileInputStream fs = new FileInputStream(f);
@@ -164,7 +164,7 @@ public class Game implements Serializable {
      * Save game to file
      */
     private void saveGame() {
-        File f = new File("./game.ser");
+        File f = new File("./game.txt");
         try {
             f.createNewFile();
             FileOutputStream fs = new FileOutputStream(f);
@@ -210,7 +210,7 @@ public class Game implements Serializable {
         int x = (c == 'A' ? -1 : (c == 'D' ? 1 : 0));
         int y = (c == 'S' ? -1 : (c == 'W' ? 1 : 0));
         if (!world[playerPos.x + x][playerPos.y + y].equals(Tileset.WALL)
-                || !world[playerPos.x + x][playerPos.y + y].equals(Tileset.LOCKED_DOOR)) {
+                && !world[playerPos.x + x][playerPos.y + y].equals(Tileset.LOCKED_DOOR)) {
             world[playerPos.x][playerPos.y] = hidden;
             playerPos.x += x;
             playerPos.y += y;
