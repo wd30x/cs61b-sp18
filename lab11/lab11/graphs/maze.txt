@@ -1,9 +1,9 @@
-N = 8
+N = 12
 rseed = 4
 
-MazeType = SINGLE_GAP
+%MazeType = SINGLE_GAP
 %MazeType = POPEN_SOLVABLE
-%MazeType = BLANK
+MazeType = BLANK
 
-pOpen = 0.48
-DRAW_DELAY_MS = 30
+pOpen = 0.7
+DRAW_DELAY_MS = 300
