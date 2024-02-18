@@ -1,5 +1,6 @@
 package lab11.graphs;
 
+import java.util.ArrayDeque;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
@@ -31,7 +32,7 @@ public class MazeBreadthFirstPaths extends MazeExplorer {
      * Conducts a breadth first search of the maze starting at the source.
      */
     private void bfs(int s) {
-        Queue<Integer> fringe = new PriorityQueue<>();
+        Queue<Integer> fringe = new ArrayDeque<>();
         marked[s] = true;
         fringe.add(s);
         announce();
@@ -44,8 +45,8 @@ public class MazeBreadthFirstPaths extends MazeExplorer {
                     edgeTo[w] = v;
                     marked[w] = true;
                     fringe.add(w);
-                    announce();
                 }
+                announce();
                 if (w == t) {
                     return;
                 }
