@@ -9,8 +9,8 @@ public class BreadthFirstDemo {
     public static void main(String[] args) {
         Maze maze = new Maze("lab11/graphs/maze.txt");
 
-        int startX = 1;
-        int startY = 1;
+        int startX = 6;
+        int startY = 6;
         int targetX = maze.N();
         int targetY = maze.N();
 
