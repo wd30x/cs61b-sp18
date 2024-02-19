@@ -1,7 +1,12 @@
 package lab11.graphs;
 
+import edu.princeton.cs.algs4.IndexMinPQ;
+
+import java.util.PriorityQueue;
+import java.util.Queue;
+
 /**
- *  @author Josh Hug
+ * @author Josh Hug
  */
 public class MazeAStarPath extends MazeExplorer {
     private int s;
@@ -18,20 +23,49 @@ public class MazeAStarPath extends MazeExplorer {
         edgeTo[s] = s;
     }
 
-    /** Estimate of the distance from v to the target. */
+    /**
+     * Estimate of the distance from v to the target.
+     */
     private int h(int v) {
-        return -1;
+        return Math.abs(maze.toX(v) - maze.toX(t)) +
+                Math.abs(maze.toY(v) - maze.toY(t));
     }
 
-    /** Finds vertex estimated to be closest to target. */
-    private int findMinimumUnmarked() {
-        return -1;
-        /* You do not have to use this method. */
-    }
-
-    /** Performs an A star search from vertex s. */
+    /**
+     * Performs an A star search from vertex s.
+     */
     private void astar(int s) {
-        // TODO
+        IndexMinPQ<Integer> pq = new IndexMinPQ<>(300);
+        for (int i = 0; i < maze.V(); i++) {
+            if (i == s) {
+                pq.insert(s, 0);
+            } else {
+                pq.insert(i, Integer.MAX_VALUE);
+                distTo[i] = Integer.MAX_VALUE;
+            }
+        }
+        marked[s] = true;
+        announce();
+
+        while (!pq.isEmpty()) {
+            int p = pq.delMin();
+            marked[p] = true;
+            for (int v : maze.adj(p)) {
+                if (distTo[p] + 1 < distTo[v]) {
+                    distTo[v] = distTo[p] + 1;
+                    edgeTo[v] = p;
+                    pq.changeKey(v, distTo[v] + h(v));
+                }
+                announce();
+                if (v == t) {
+                    marked[v] = true;
+                    announce();
+                    return;
+                }
+            }
+        }
+
+
     }
 
     @Override
